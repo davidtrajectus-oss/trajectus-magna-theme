@@ -31,18 +31,117 @@
     {%- render 'theme-styles-variables' -%}
     {%- render 'color-schemes' -%}
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap"
+      fetchpriority="low"
+    >
+
+    <style>
+      /* Trajectus Magna — Brutalist Minimalism */
+      :root {
+        --font-heading--family: 'Cormorant Garamond', Georgia, serif;
+        --font-body--family: 'DM Sans', system-ui, sans-serif;
+        --font-subheading--family: 'Cormorant Garamond', Georgia, serif;
+        --font-accent--family: 'DM Sans', system-ui, sans-serif;
+        --font-primary--family: 'Cormorant Garamond', Georgia, serif;
+        --font-secondary--family: 'DM Sans', system-ui, sans-serif;
+      }
+
+      /* Force dark palette on all light color schemes */
+      .color-scheme-1,
+      .color-scheme-2,
+      .color-scheme-3 {
+        --color-background: rgb(0 0 0);
+        --color-background-rgb: 0 0 0;
+        --color-foreground: rgb(255 255 255);
+        --color-foreground-rgb: 255 255 255;
+        --color-foreground-heading: rgb(255 255 255);
+        --color-foreground-heading-rgb: 255 255 255;
+        --color-border: rgb(34 34 34);
+        --color-border-rgb: 34 34 34;
+        --color-primary: rgb(136 136 136);
+        --color-primary-rgb: 136 136 136;
+        --color-primary-hover: rgb(255 255 255);
+        --color-primary-button-background: rgb(255 255 255);
+        --color-primary-button-text: rgb(0 0 0);
+        --color-primary-button-border: rgb(255 255 255);
+        --color-primary-button-hover-background: rgb(200 200 200);
+        --color-primary-button-hover-text: rgb(0 0 0);
+        --color-primary-button-hover-border: rgb(200 200 200);
+        --color-secondary-button-background: rgb(0 0 0 / 0);
+        --color-secondary-button-text: rgb(255 255 255);
+        --color-secondary-button-border: rgb(136 136 136);
+        --color-secondary-button-hover-background: rgb(0 0 0 / 0);
+        --color-secondary-button-hover-text: rgb(136 136 136);
+        --color-secondary-button-hover-border: rgb(100 100 100);
+        --color-input-background: rgb(0 0 0);
+        --color-input-text: rgb(255 255 255);
+        --color-input-text-rgb: 255 255 255;
+        --color-input-border: rgb(51 51 51);
+        --color-input-hover-background: rgb(17 17 17);
+        --color-variant-background: rgb(0 0 0);
+        --color-variant-text: rgb(255 255 255);
+        --color-variant-border: rgb(51 51 51);
+        --color-variant-hover-background: rgb(17 17 17);
+        --color-variant-hover-text: rgb(255 255 255);
+        --color-variant-hover-border: rgb(136 136 136);
+        --color-selected-variant-background: rgb(255 255 255);
+        --color-selected-variant-text: rgb(0 0 0);
+        --color-selected-variant-border: rgb(255 255 255);
+        --color-selected-variant-hover-background: rgb(200 200 200);
+        --color-selected-variant-hover-text: rgb(0 0 0);
+        --color-selected-variant-hover-border: rgb(200 200 200);
+        --opacity-5-15: 0.15;
+        --opacity-10-25: 0.25;
+        --opacity-35-55: 0.55;
+        --opacity-40-60: 0.60;
+        --opacity-30-60: 0.60;
+      }
+
+      body {
+        background: #000000;
+      }
+    </style>
+
     {% if request.design_mode %}
       {%- render 'theme-editor' -%}
     {% endif %}
+
+    <link rel="stylesheet" href="{{ 'tm-tokens.css' | asset_url }}">
+    <link rel="stylesheet" href="{{ 'tm-global.css' | asset_url }}">
+
+    <script>
+      /* Modo drop: pre-drop antes de la fecha, post-drop después.
+         Override de desarrollo: ?tm_mode=pre | ?tm_mode=post (persiste en la sesión). */
+      (function () {
+        var DROP_DATE = '2026-06-05T18:00:00+02:00';
+        var mode = null;
+        try {
+          var q = new URLSearchParams(location.search).get('tm_mode');
+          if (q === 'pre' || q === 'post') sessionStorage.setItem('tm_mode', q);
+          mode = sessionStorage.getItem('tm_mode');
+        } catch (e) { /* sessionStorage no disponible */ }
+        if (mode !== 'pre' && mode !== 'post') {
+          mode = Date.now() >= new Date(DROP_DATE).getTime() ? 'post' : 'pre';
+        }
+        document.documentElement.classList.add(mode + '-drop');
+      })();
+    </script>
 
     {{ content_for_header }}
   </head>
 
   <body class="page-width-{{ settings.page_width }} card-hover-effect-{{ settings.card_hover_effect }}">
     {% render 'skip-to-content-link', href: '#MainContent', text: 'accessibility.skip_to_text' %}
+    {%- render 'tm-header' -%}
+    {% unless template == 'index' %}
     <div id="header-group">
       {% sections 'header-group' %}
     </div>
+    {% endunless %}
 
     <script>
       // Inline header height calculation to prevent layout shift
@@ -106,7 +205,12 @@
       {{ content_for_layout }}
     </main>
 
-    {% sections 'footer-group' %}
+    {% unless template == 'index' %}
+    <div id="footer-group">
+      {% sections 'footer-group' %}
+    </div>
+    {% endunless %}
+    {%- render 'tm-footer' -%}
 
     {% render 'search-modal' %}
 

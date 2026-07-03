@@ -1,0 +1,92 @@
+{% layout none %}
+{%- comment -%}
+  TM — Verificador de código de acceso (v2)
+  Códigos, fecha y mensajes viven en el bloque de configuración JSON;
+  la lógica (clasificación, cookies, redirección) en tm-access.js.
+{%- endcomment -%}
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>Acceso — TRAJECTUS MAGNA</title>
+  {%- if settings.favicon != blank -%}
+    <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
+  {%- endif -%}
+  <link rel="stylesheet" href="{{ 'tm-tokens.css' | asset_url }}">
+  <link rel="stylesheet" href="{{ 'tm-standalone.css' | asset_url }}">
+  {{ content_for_header }}
+</head>
+<body>
+
+  <main class="tm-sa-page">
+
+    {%- if settings.logo != blank -%}
+      <img
+        src="{{ settings.logo | image_url: width: 88 }}"
+        alt="Trajectus Magna"
+        class="tm-sa-logo"
+        width="44"
+        height="{{ 44 | divided_by: settings.logo.aspect_ratio | round }}"
+        loading="eager"
+      >
+    {%- else -%}
+      <span class="tm-sa-logo-text">TRAJECTUS MAGNA</span>
+    {%- endif -%}
+
+    <p class="tm-sa-heading">ACCESO RESTRINGIDO</p>
+
+    <div class="tm-sa-line" aria-hidden="true"></div>
+
+    <div data-tm-access-wrap>
+
+      <input
+        type="text"
+        class="tm-sa-input"
+        data-tm-access-input
+        placeholder="&middot; &middot; &middot; &middot; &middot; &middot;"
+        maxlength="12"
+        autocomplete="off"
+        autocorrect="off"
+        autocapitalize="characters"
+        spellcheck="false"
+        aria-label="C&oacute;digo de acceso"
+      >
+
+      <button type="button" class="tm-sa-btn" data-tm-access-btn>VERIFICAR</button>
+
+      <span class="tm-sa-status" data-tm-access-status role="status" aria-live="polite"></span>
+
+    </div>
+
+    <a href="/pages/acceso-anticipado" class="tm-sa-footer-link">
+      &iquest;No tienes c&oacute;digo? Solicitar acceso &rarr;
+    </a>
+
+  </main>
+
+  <script type="application/json" data-tm-access-config>
+    {
+      "vipCodes": [
+        "DV-001", "MR-002", "JL-003", "AB-004", "SK-005", "RG-006", "TN-007",
+        "PL-008", "CM-009", "FH-010", "YB-011", "ZQ-012", "WX-013", "NE-014",
+        "KT-015", "UV-016", "IA-017", "BJ-018", "OC-019", "SP-020"
+      ],
+      "publicCode": "TM2026",
+      "dropDate": "2026-06-05T18:00:00+02:00",
+      "redirect": "/collections/club",
+      "cookieDays": 30,
+      "messages": {
+        "vip": "Acceso VIP confirmado.",
+        "public": "Acceso confirmado.",
+        "early": "Disponible el 05.06.2026 a las 18:00h.",
+        "invalid": "Código no reconocido.",
+        "welcome": "BIENVENIDO."
+      }
+    }
+  </script>
+  <script src="{{ 'tm-access.js' | asset_url }}" defer></script>
+
+</body>
+</html>

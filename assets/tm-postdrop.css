@@ -1,0 +1,316 @@
+/* ═══════════════════════════════════════════════════════════
+   TRAJECTUS MAGNA — HOME POST-DROP (v2)
+   Estilos de tm-home-postdrop. Requiere tm-tokens.css.
+   ═══════════════════════════════════════════════════════════ */
+
+/* ── 01 Hero ────────────────────────────────────────────────── */
+
+.tm-ph-hero {
+  position: relative;
+  height: 100vh;
+  min-height: 600px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: var(--tm-black);
+}
+
+.tm-ph-hero__bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  will-change: opacity;
+  transition: opacity 0.1s linear;
+}
+
+.tm-ph-hero__overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(10, 10, 10, 0.35);
+}
+
+.tm-ph-hero__content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.tm-ph-hero__logo img {
+  width: 52px;
+  height: auto;
+  display: block;
+  filter: brightness(10) invert(1);
+}
+
+.tm-ph-hero__logo-text {
+  font-family: var(--tm-font);
+  font-size: 12px;
+  font-weight: 300;
+  letter-spacing: 0.5em;
+  color: var(--tm-crudo);
+  text-transform: uppercase;
+}
+
+.tm-ph-hero__brand {
+  font-family: var(--tm-font);
+  font-size: 10px;
+  letter-spacing: 0.4em;
+  color: var(--tm-ink-70);
+  text-transform: uppercase;
+  margin: 16px 0 0;
+}
+
+.tm-ph-hero__line {
+  width: 60px;
+  height: 1px;
+  background: var(--tm-ink-30);
+  margin: 16px auto;
+}
+
+.tm-ph-hero__tagline {
+  font-family: var(--tm-font);
+  font-size: 13px;
+  color: var(--tm-ink-60);
+  letter-spacing: 0.1em;
+  margin: 0;
+}
+
+.tm-ph-hero__scroll-cta {
+  position: absolute;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--tm-font);
+  font-size: 9px;
+  letter-spacing: 0.3em;
+  color: var(--tm-ink-40);
+  text-decoration: none;
+  text-transform: uppercase;
+  white-space: nowrap;
+  transition: color 0.4s ease;
+}
+
+.tm-ph-hero__scroll-cta:hover,
+.tm-ph-hero__scroll-cta:focus-visible { color: var(--tm-ink-70); }
+
+/* ── 02 Strip de especificaciones ───────────────────────────── */
+
+.tm-ph-strip {
+  background: var(--tm-black);
+  padding: 56px var(--section-padding);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  scroll-margin-top: 64px;
+}
+
+.tm-ph-strip__col {
+  flex: 1;
+  max-width: 240px;
+  text-align: center;
+  padding: 0 24px;
+}
+
+.tm-ph-strip__label {
+  font-family: var(--tm-font);
+  font-size: 8px;
+  letter-spacing: 0.3em;
+  color: var(--tm-ink-30);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.tm-ph-strip__value {
+  font-family: var(--tm-font);
+  font-size: 15px;
+  font-weight: 300;
+  color: var(--tm-crudo);
+  letter-spacing: 0.05em;
+}
+
+.tm-ph-strip__divider {
+  width: 1px;
+  height: 40px;
+  background: rgba(240, 237, 232, 0.08);
+  flex-shrink: 0;
+}
+
+@media (max-width: 600px) {
+  .tm-ph-strip {
+    flex-direction: column;
+    gap: 32px;
+  }
+
+  .tm-ph-strip__divider {
+    width: 40px;
+    height: 1px;
+  }
+}
+
+/* ── 03 Preview de colección ────────────────────────────────── */
+
+.tm-ph-collection {
+  background: var(--tm-white);
+  padding: 96px var(--section-padding);
+}
+
+.tm-ph-collection__label {
+  font-family: var(--tm-font);
+  font-size: 8px;
+  letter-spacing: 0.4em;
+  color: var(--tm-grey-3);
+  text-transform: uppercase;
+  margin-bottom: 48px;
+}
+
+.tm-ph-collection__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+@media (max-width: 749px) {
+  .tm-ph-collection__grid { grid-template-columns: 1fr; }
+}
+
+.tm-ph-card { list-style: none; }
+
+.tm-ph-card__link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+.tm-ph-card__image-wrap {
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  position: relative;
+  background: var(--tm-grey-1);
+}
+
+.tm-ph-card__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+  transition: opacity 0.4s ease;
+}
+
+.tm-ph-card__img--secondary { opacity: 0; }
+
+.tm-ph-card__image-wrap:hover .tm-ph-card__img--primary,
+.tm-ph-card__link:focus-visible .tm-ph-card__img--primary { opacity: 0; }
+
+.tm-ph-card__image-wrap:hover .tm-ph-card__img--secondary,
+.tm-ph-card__link:focus-visible .tm-ph-card__img--secondary { opacity: 1; }
+
+.tm-ph-card__placeholder {
+  width: 100%;
+  height: 100%;
+  background: var(--tm-grey-1);
+}
+
+.tm-ph-card__info { margin-top: 12px; }
+
+.tm-ph-card__name {
+  font-family: var(--tm-font);
+  font-size: 12px;
+  color: var(--tm-black);
+  letter-spacing: 0.1em;
+  margin: 0;
+}
+
+.tm-ph-card__variant {
+  font-family: var(--tm-font);
+  font-size: 11px;
+  color: var(--tm-grey-4);
+  letter-spacing: 0.05em;
+  margin-top: 4px;
+}
+
+.tm-ph-collection__note {
+  font-family: var(--tm-font);
+  font-size: 10px;
+  color: var(--tm-grey-3);
+  letter-spacing: 0.1em;
+  text-align: center;
+  margin-top: 40px;
+}
+
+/* ── 04 Manifiesto ──────────────────────────────────────────── */
+
+.tm-ph-manifesto {
+  background: var(--tm-black);
+  padding: 96px var(--section-padding);
+  text-align: center;
+}
+
+.tm-ph-manifesto__inner {
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+.tm-ph-manifesto__quote {
+  font-family: var(--tm-font);
+  font-size: 20px;
+  font-weight: 200;
+  color: var(--tm-crudo);
+  letter-spacing: 0.03em;
+  line-height: 1.5;
+  margin: 0 0 32px;
+  font-style: normal;
+}
+
+.tm-ph-manifesto__sub {
+  font-family: var(--tm-font);
+  font-size: 12px;
+  color: var(--tm-ink-40);
+  letter-spacing: 0.08em;
+  line-height: 1.9;
+  margin: 0;
+}
+
+.tm-ph-manifesto__cta {
+  display: inline-block;
+  margin-top: 40px;
+  font-family: var(--tm-font);
+  font-size: 9px;
+  letter-spacing: 0.3em;
+  color: var(--tm-ink-30);
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: color 0.4s ease;
+}
+
+.tm-ph-manifesto__cta:hover,
+.tm-ph-manifesto__cta:focus-visible { color: var(--tm-ink-70); }
+
+@media (max-width: 749px) {
+  .tm-ph-manifesto__quote { font-size: 17px; }
+}
+
+/* ── Scroll suave para el ancla del hero ────────────────────── */
+
+html.post-drop { scroll-behavior: smooth; }
+
+/* ── Reduced motion ─────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  html.post-drop { scroll-behavior: auto; }
+
+  .tm-ph-hero__bg,
+  .tm-ph-hero__scroll-cta,
+  .tm-ph-card__img,
+  .tm-ph-manifesto__cta { transition: none; }
+}

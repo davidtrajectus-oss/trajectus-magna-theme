@@ -38,6 +38,7 @@
 
       {% capture children %}
         {% for product in products %}
+          {% unless product.tags contains 'archive' %}
           <li
             id="{{ section.id }}-{{ product.id }}"
             class="product-grid__item product-grid__item--{{ forloop.index0 }}"
@@ -47,6 +48,7 @@
           >
             {% content_for 'block', type: '_product-card', id: 'product-card', closest.product: product %}
           </li>
+          {% endunless %}
         {% endfor %}
       {% endcapture %}
 

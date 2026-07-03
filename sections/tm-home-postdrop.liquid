@@ -1,0 +1,396 @@
+{%- comment -%}
+  TM — Home Post Drop (v2)
+  Hero editorial + strip de specs + preview de colección + manifiesto.
+  Textos y specs editables desde el editor; el reveal vive en tm-motion.js.
+{%- endcomment -%}
+
+{{ 'tm-postdrop.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'tm-motion.js' | asset_url }}" defer></script>
+
+{%- liquid
+  assign col_handle = section.settings.collection_handle | default: 'club'
+  assign tm_col = collections[col_handle]
+  assign col_url = '/collections/' | append: col_handle
+-%}
+
+<!-- ══ 01 — HERO ══ -->
+
+<section class="tm-ph-hero" id="tm-hero" aria-label="Trajectus Magna — {{ section.settings.tagline | default: 'Club Polo' }}">
+
+  {%- if section.settings.hero_image != blank -%}
+    <img
+      class="tm-ph-hero__bg"
+      src="{{ section.settings.hero_image | image_url: width: 1800 }}"
+      srcset="
+        {{ section.settings.hero_image | image_url: width: 750 }} 750w,
+        {{ section.settings.hero_image | image_url: width: 1100 }} 1100w,
+        {{ section.settings.hero_image | image_url: width: 1800 }} 1800w,
+        {{ section.settings.hero_image | image_url: width: 2400 }} 2400w
+      "
+      sizes="100vw"
+      alt=""
+      role="presentation"
+      width="{{ section.settings.hero_image.width }}"
+      height="{{ section.settings.hero_image.height }}"
+      loading="eager"
+      fetchpriority="high"
+    >
+  {%- else -%}
+    <img
+      class="tm-ph-hero__bg"
+      src="{{ 'foto_dinamica_modelo_gris.png' | asset_url }}"
+      alt=""
+      role="presentation"
+      width="1122"
+      height="1402"
+      loading="eager"
+      fetchpriority="high"
+    >
+  {%- endif -%}
+
+  <div class="tm-ph-hero__overlay" aria-hidden="true"></div>
+
+  <div class="tm-ph-hero__content">
+
+    <div class="tm-ph-hero__logo tm-fade-in" data-delay="0">
+      {%- if settings.logo != blank -%}
+        <img
+          src="{{ settings.logo | image_url: width: 104 }}"
+          alt="Trajectus Magna"
+          width="52"
+          height="{{ 52 | divided_by: settings.logo.aspect_ratio | round }}"
+          loading="eager"
+        >
+      {%- else -%}
+        <span class="tm-ph-hero__logo-text">TRAJECTUS MAGNA</span>
+      {%- endif -%}
+    </div>
+
+    <p class="tm-ph-hero__brand tm-fade-in" data-delay="1">TRAJECTUS MAGNA</p>
+
+    <div class="tm-ph-hero__line" aria-hidden="true"></div>
+
+    <p class="tm-ph-hero__tagline tm-fade-in" data-delay="2">
+      {{ section.settings.tagline | default: 'Club Polo — Disponible ahora.' }}
+    </p>
+
+  </div>
+
+  {%- comment -%} Sin JS navega a la colección; con JS hace scroll al strip. {%- endcomment -%}
+  <a
+    href="{{ col_url | default: '/collections/club' }}"
+    class="tm-ph-hero__scroll-cta tm-fade-in"
+    data-delay="3"
+    id="tm-scroll-cta"
+    aria-label="Ver la colección"
+  >VER LA COLECCIÓN ↓</a>
+
+</section>
+
+<!-- ══ 02 — STRIP ══ -->
+
+<section class="tm-ph-strip" id="tm-strip" aria-label="Especificaciones del producto">
+
+  {%- if section.blocks.size > 0 -%}
+    {%- for block in section.blocks -%}
+      {%- unless forloop.first -%}
+        <div class="tm-ph-strip__divider" aria-hidden="true"></div>
+      {%- endunless -%}
+      <div class="tm-ph-strip__col" {{ block.shopify_attributes }}>
+        <p class="tm-ph-strip__label">{{ block.settings.label }}</p>
+        <p class="tm-ph-strip__value">{{ block.settings.value }}</p>
+      </div>
+    {%- endfor -%}
+  {%- else -%}
+    {%- comment -%} Specs por defecto (plantillas publicadas sin bloques) {%- endcomment -%}
+    <div class="tm-ph-strip__col">
+      <p class="tm-ph-strip__label">GRAMAJE</p>
+      <p class="tm-ph-strip__value">280g/m²</p>
+    </div>
+    <div class="tm-ph-strip__divider" aria-hidden="true"></div>
+    <div class="tm-ph-strip__col">
+      <p class="tm-ph-strip__label">COMPOSICIÓN</p>
+      <p class="tm-ph-strip__value">100% Algodón Piqué</p>
+    </div>
+    <div class="tm-ph-strip__divider" aria-hidden="true"></div>
+    <div class="tm-ph-strip__col">
+      <p class="tm-ph-strip__label">BORDADO</p>
+      <p class="tm-ph-strip__value">Escudo Heráldico</p>
+    </div>
+  {%- endif -%}
+
+</section>
+
+<!-- ══ 03 — COLLECTION PREVIEW ══ -->
+
+<section class="tm-ph-collection" aria-label="Colección Club">
+
+  <p class="tm-ph-collection__label tm-fade-in">{{ section.settings.collection_label | default: 'I — CLUB' }}</p>
+
+  <div class="tm-ph-collection__grid">
+
+    {%- if tm_col != blank and tm_col.products.size > 0 -%}
+      {%- for product in tm_col.products limit: 2 -%}
+
+        {%- liquid
+          assign variant_title = product.variants.first.title
+          if variant_title == 'Default Title'
+            assign variant_title = ''
+          endif
+          assign img2 = product.images[1]
+        -%}
+
+        <article class="tm-ph-card tm-fade-in" data-delay="{{ forloop.index }}">
+          <a href="{{ product.url }}" class="tm-ph-card__link" aria-label="{{ product.title | escape }}">
+
+            <div class="tm-ph-card__image-wrap">
+              {%- if product.featured_image -%}
+                <img
+                  src="{{ product.featured_image | image_url: width: 800 }}"
+                  srcset="
+                    {{ product.featured_image | image_url: width: 400 }} 400w,
+                    {{ product.featured_image | image_url: width: 600 }} 600w,
+                    {{ product.featured_image | image_url: width: 800 }} 800w
+                  "
+                  sizes="(max-width: 749px) 100vw, 50vw"
+                  alt="{{ product.title | escape }}"
+                  width="800"
+                  height="{{ 800 | divided_by: product.featured_image.aspect_ratio | round }}"
+                  loading="lazy"
+                  class="tm-ph-card__img tm-ph-card__img--primary"
+                >
+                {%- if img2 -%}
+                  <img
+                    src="{{ img2 | image_url: width: 800 }}"
+                    srcset="
+                      {{ img2 | image_url: width: 400 }} 400w,
+                      {{ img2 | image_url: width: 600 }} 600w,
+                      {{ img2 | image_url: width: 800 }} 800w
+                    "
+                    sizes="(max-width: 749px) 100vw, 50vw"
+                    alt="{{ product.title | escape }} — alternativa"
+                    width="800"
+                    height="{{ 800 | divided_by: img2.aspect_ratio | round }}"
+                    loading="lazy"
+                    class="tm-ph-card__img tm-ph-card__img--secondary"
+                  >
+                {%- endif -%}
+              {%- else -%}
+                <div class="tm-ph-card__placeholder"></div>
+              {%- endif -%}
+            </div>
+
+            <div class="tm-ph-card__info">
+              <p class="tm-ph-card__name">{{ product.title }}</p>
+              {%- if variant_title != blank -%}
+                <p class="tm-ph-card__variant">{{ variant_title }}</p>
+              {%- endif -%}
+            </div>
+
+          </a>
+        </article>
+
+      {%- endfor -%}
+    {%- else -%}
+
+      {%- comment -%} Fallback cuando la colección está vacía o no existe {%- endcomment -%}
+      <article class="tm-ph-card tm-fade-in" data-delay="1">
+        <a href="{{ col_url }}" class="tm-ph-card__link">
+          <div class="tm-ph-card__image-wrap">
+            <img
+              src="{{ 'club-polo-navy.jpg' | asset_url }}"
+              alt="Club Polo — Navy"
+              width="1122"
+              height="1402"
+              loading="lazy"
+              class="tm-ph-card__img tm-ph-card__img--primary"
+            >
+          </div>
+          <div class="tm-ph-card__info">
+            <p class="tm-ph-card__name">Club Polo</p>
+            <p class="tm-ph-card__variant">Navy</p>
+          </div>
+        </a>
+      </article>
+
+      <article class="tm-ph-card tm-fade-in" data-delay="2">
+        <a href="{{ col_url }}" class="tm-ph-card__link">
+          <div class="tm-ph-card__image-wrap">
+            <img
+              src="{{ 'polo_gris_corregido.png' | asset_url }}"
+              alt="Club Polo — Off-White"
+              width="1024"
+              height="1535"
+              loading="lazy"
+              class="tm-ph-card__img tm-ph-card__img--primary"
+            >
+          </div>
+          <div class="tm-ph-card__info">
+            <p class="tm-ph-card__name">Club Polo</p>
+            <p class="tm-ph-card__variant">Off-White</p>
+          </div>
+        </a>
+      </article>
+
+    {%- endif -%}
+
+  </div>
+
+  <p class="tm-ph-collection__note tm-fade-in">{{ section.settings.note | default: 'Edición limitada. No se repone.' }}</p>
+
+</section>
+
+<!-- ══ 04 — MANIFESTO TEASER ══ -->
+
+<section class="tm-ph-manifesto" aria-label="Manifiesto">
+
+  <div class="tm-ph-manifesto__inner">
+
+    <blockquote class="tm-ph-manifesto__quote tm-fade-in">
+      {{ section.settings.quote | default: '"No todo está disponible para todos."' }}
+    </blockquote>
+
+    <p class="tm-ph-manifesto__sub tm-fade-in" data-delay="1">
+      {{ section.settings.quote_sub | default: 'Trajectus Magna. Una firma. Dos piezas.<br>Sin reposición.' }}
+    </p>
+
+    <a href="{{ section.settings.manifesto_link | default: '/pages/la-firma' }}" class="tm-ph-manifesto__cta tm-fade-in" data-delay="2">
+      CONOCER LA FIRMA →
+    </a>
+
+  </div>
+
+</section>
+
+<script>
+  /* Desvanecimiento del hero al hacer scroll (via tm-motion.js) */
+  (function () {
+    function start() {
+      if (window.TM && window.TM.motion) {
+        window.TM.motion.heroFade('#tm-hero', '.tm-ph-hero__bg', 0.4);
+      }
+      var cta = document.getElementById('tm-scroll-cta');
+      var strip = document.getElementById('tm-strip');
+      if (cta && strip) {
+        cta.addEventListener('click', function (e) {
+          e.preventDefault();
+          strip.scrollIntoView({ behavior: 'smooth' });
+        });
+      }
+    }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', start);
+    } else {
+      start();
+    }
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "TM Home — Post Drop",
+  "tag": "div",
+  "class": "tm-home-postdrop",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Hero"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Imagen del hero",
+      "info": "Si se deja vacío se usa la foto editorial por defecto."
+    },
+    {
+      "type": "text",
+      "id": "tagline",
+      "label": "Tagline",
+      "default": "Club Polo — Disponible ahora."
+    },
+    {
+      "type": "header",
+      "content": "Colección"
+    },
+    {
+      "type": "text",
+      "id": "collection_handle",
+      "label": "Collection handle",
+      "default": "club",
+      "info": "Handle de la colección a mostrar en el preview."
+    },
+    {
+      "type": "text",
+      "id": "collection_label",
+      "label": "Etiqueta",
+      "default": "I — CLUB"
+    },
+    {
+      "type": "text",
+      "id": "note",
+      "label": "Nota de escasez",
+      "default": "Edición limitada. No se repone."
+    },
+    {
+      "type": "header",
+      "content": "Manifiesto"
+    },
+    {
+      "type": "text",
+      "id": "quote",
+      "label": "Cita",
+      "default": "\"No todo está disponible para todos.\""
+    },
+    {
+      "type": "richtext",
+      "id": "quote_sub",
+      "label": "Subtexto"
+    },
+    {
+      "type": "url",
+      "id": "manifesto_link",
+      "label": "Enlace del CTA"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "spec",
+      "name": "Especificación",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Etiqueta",
+          "default": "GRAMAJE"
+        },
+        {
+          "type": "text",
+          "id": "value",
+          "label": "Valor",
+          "default": "280g/m²"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 4,
+  "presets": [
+    {
+      "name": "TM Home Post Drop",
+      "blocks": [
+        {
+          "type": "spec",
+          "settings": { "label": "GRAMAJE", "value": "280g/m²" }
+        },
+        {
+          "type": "spec",
+          "settings": { "label": "COMPOSICIÓN", "value": "100% Algodón Piqué" }
+        },
+        {
+          "type": "spec",
+          "settings": { "label": "BORDADO", "value": "Escudo Heráldico" }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

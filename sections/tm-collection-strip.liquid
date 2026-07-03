@@ -1,0 +1,47 @@
+{%- comment -%} TM — Strip de escasez en colección (v2) {%- endcomment -%}
+
+<div class="tm-col-strip">
+  <p class="tm-col-strip__text">
+    {{ section.settings.text | default: 'Las piezas de Trajectus Magna no se reponen. Cuando se agoten, esta edición cierra.' }}
+  </p>
+</div>
+
+{% stylesheet %}
+  .tm-col-strip {
+    background: var(--tm-black, #0a0a0a);
+    padding: 48px var(--section-padding, max(24px, 5vw));
+    text-align: center;
+  }
+
+  .tm-col-strip__text {
+    font-family: var(--tm-font, 'Helvetica Neue', Helvetica, Arial, sans-serif);
+    font-size: 13px;
+    color: var(--tm-ink-50, rgba(240, 237, 232, 0.5));
+    letter-spacing: 0.05em;
+    line-height: 1.9;
+    max-width: 680px;
+    margin: 0 auto;
+    font-weight: 300;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "TM Collection Strip",
+  "tag": "div",
+  "class": "tm-col-strip-section",
+  "settings": [
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Texto",
+      "default": "Las piezas de Trajectus Magna no se reponen. Cuando se agoten, esta edición cierra."
+    }
+  ],
+  "presets": [
+    {
+      "name": "TM Collection Strip"
+    }
+  ]
+}
+{% endschema %}

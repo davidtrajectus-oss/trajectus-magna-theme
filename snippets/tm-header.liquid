@@ -1,0 +1,67 @@
+{%- comment -%}
+  TM — Header post-drop (v2)
+  Chrome mínimo: La Firma / logo / Club · Acceso · Carrito.
+  Estilos en tm-global.css; menú móvil accesible en tm-menu.js.
+{%- endcomment -%}
+
+<header class="tm-header" role="banner">
+
+  <nav class="tm-header__nav tm-header__nav--desktop" aria-label="Navegación principal">
+    <a href="/pages/la-firma" class="tm-header__link">La Firma</a>
+  </nav>
+
+  <a href="/" class="tm-header__logo-wrap" aria-label="Trajectus Magna — Inicio">
+    {%- if settings.logo != blank -%}
+      <img
+        src="{{ settings.logo | image_url: width: 64 }}"
+        alt="Trajectus Magna"
+        width="32"
+        height="32"
+        loading="eager"
+      >
+    {%- else -%}
+      <span class="tm-header__logo-text">TM</span>
+    {%- endif -%}
+  </a>
+
+  <nav class="tm-header__nav tm-header__nav--desktop" aria-label="Colección y acceso">
+    <a href="/collections/club" class="tm-header__link">Club</a>
+    <a href="/pages/acceso-codigo" class="tm-header__link">Acceso</a>
+    <a href="{{ routes.cart_url }}" class="tm-header__link tm-header__link--cart" aria-label="Carrito{% if cart.item_count > 0 %}, {{ cart.item_count }} artículo{% if cart.item_count > 1 %}s{% endif %}{% endif %}">
+      Carrito{% if cart.item_count > 0 %} ({{ cart.item_count }}){% endif %}
+    </a>
+  </nav>
+
+  <button
+    class="tm-header__mobile-btn"
+    id="tm-menu-open"
+    aria-label="Abrir menú"
+    aria-expanded="false"
+    aria-controls="tm-mobile-menu"
+  >
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+
+</header>
+
+<nav
+  class="tm-mobile-menu"
+  id="tm-mobile-menu"
+  aria-label="Menú móvil"
+  aria-hidden="true"
+>
+  <button
+    class="tm-mobile-menu__close"
+    id="tm-menu-close"
+    aria-label="Cerrar menú"
+  >CERRAR</button>
+
+  <a href="/pages/la-firma" class="tm-mobile-menu__link">La Firma</a>
+  <a href="/collections/club" class="tm-mobile-menu__link">Club</a>
+  <a href="/pages/acceso-codigo" class="tm-mobile-menu__link">Acceso</a>
+  <a href="{{ routes.cart_url }}" class="tm-mobile-menu__link">Carrito{% if cart.item_count > 0 %} ({{ cart.item_count }}){% endif %}</a>
+</nav>
+
+<script src="{{ 'tm-menu.js' | asset_url }}" defer></script>

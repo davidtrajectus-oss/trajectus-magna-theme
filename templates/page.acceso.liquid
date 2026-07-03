@@ -1,0 +1,115 @@
+{% layout none %}
+{%- comment -%}
+  TM — Solicitud de acceso anticipado (v2)
+  Formulario contact minimalista sobre la concha standalone.
+{%- endcomment -%}
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Acceso Anticipado &ndash; TRAJECTUS MAGNA</title>
+  <meta property="og:site_name" content="TRAJECTUS MAGNA">
+  <meta property="og:title" content="Acceso Anticipado &ndash; TRAJECTUS MAGNA">
+  <meta name="twitter:title" content="Acceso Anticipado &ndash; TRAJECTUS MAGNA">
+  {%- if settings.favicon != blank -%}
+    <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
+  {%- endif -%}
+  <link rel="stylesheet" href="{{ 'tm-tokens.css' | asset_url }}">
+  <link rel="stylesheet" href="{{ 'tm-standalone.css' | asset_url }}">
+  {{ content_for_header }}
+  <style>
+    .tm-acceso-form {
+      width: 100%;
+      max-width: 320px;
+      display: flex;
+      flex-direction: column;
+      margin-top: 8px;
+    }
+
+    .tm-acceso-form .tm-sa-input {
+      width: 100%;
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: none;
+    }
+
+    .tm-acceso-form .tm-sa-btn {
+      width: 100%;
+      padding: 1rem;
+      min-height: 48px;
+      letter-spacing: 0.4em;
+    }
+
+    .tm-acceso-disclaimer {
+      font-size: 11px;
+      color: var(--tm-ink-30);
+      letter-spacing: 0.1em;
+      margin-top: 32px;
+    }
+
+    .tm-acceso-success {
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      color: var(--tm-ink-50);
+      text-transform: uppercase;
+      padding: 1rem 0;
+    }
+
+    .tm-acceso-error {
+      font-size: 0.65rem;
+      color: var(--tm-ink-40);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-top: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+
+  <main class="tm-sa-page">
+
+    {%- if settings.logo != blank -%}
+      <img
+        src="{{ settings.logo | image_url: width: 128 }}"
+        alt="Trajectus Magna"
+        class="tm-sa-logo"
+        width="64"
+        height="{{ 64 | divided_by: settings.logo.aspect_ratio | round }}"
+        loading="eager"
+      >
+    {%- else -%}
+      <span class="tm-sa-logo-text">TRAJECTUS MAGNA</span>
+    {%- endif -%}
+
+    <p class="tm-sa-heading">SOLICITAR ACCESO</p>
+
+    <div class="tm-sa-line" aria-hidden="true"></div>
+
+    {%- form 'contact', id: 'tm-acceso-form', class: 'tm-acceso-form' -%}
+      <input type="hidden" name="contact[body]" value="Solicitud de acceso anticipado &mdash; Trajectus Magna">
+      {%- if form.posted_successfully? -%}
+        <p class="tm-acceso-success">Solicitud recibida.</p>
+      {%- else -%}
+        <input
+          type="email"
+          name="contact[email]"
+          class="tm-sa-input"
+          placeholder="correo electr&oacute;nico"
+          required
+          autocomplete="email"
+          aria-label="Correo electr&oacute;nico"
+        >
+        <button type="submit" class="tm-sa-btn">ENVIAR</button>
+        {%- if form.errors -%}
+          <p class="tm-acceso-error" role="alert">Introduce un correo v&aacute;lido.</p>
+        {%- endif -%}
+      {%- endif -%}
+    {%- endform -%}
+
+    <p class="tm-acceso-disclaimer">Acceso sujeto a disponibilidad.</p>
+
+  </main>
+
+</body>
+</html>

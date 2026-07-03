@@ -17,10 +17,10 @@
 >
 
 {%- liquid
-  assign og_title = page_title | default: shop.name
+  assign og_title = page_title | replace: shop.name, 'TRAJECTUS MAGNA' | default: 'TRAJECTUS MAGNA'
   assign og_url = canonical_url | default: request.origin
   assign og_type = 'website'
-  assign og_description = page_description | default: shop.description | default: shop.name
+  assign og_description = page_description | default: shop.description | default: 'TRAJECTUS MAGNA'
 
   if request.page_type == 'product'
     assign og_type = 'product'
@@ -29,11 +29,11 @@
   elsif request.page_type == 'password'
     assign og_url = request.origin
   endif
-%}
+-%}
 
 <meta
   property="og:site_name"
-  content="{{ shop.name }}"
+  content="TRAJECTUS MAGNA"
 >
 <meta
   property="og:url"
@@ -102,10 +102,15 @@
 >
 
 <title>
-  {{ page_title }}
-  {%- if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif -%}
-  {%- if current_page != 1 %} &ndash; Page {{ current_page }}{% endif -%}
-  {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
+  {%- if template == 'index' -%}
+    Trajectus Magna — Drop 05.06.2026
+  {%- else -%}
+    {%- assign clean_page_title = page_title | replace: shop.name, 'TRAJECTUS MAGNA' -%}
+    {{ clean_page_title | default: 'TRAJECTUS MAGNA' }}
+    {%- if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif -%}
+    {%- if current_page != 1 %} &ndash; Page {{ current_page }}{% endif -%}
+    {%- unless clean_page_title contains 'TRAJECTUS MAGNA' %} &ndash; TRAJECTUS MAGNA{% endunless -%}
+  {%- endif -%}
 </title>
 
 <link

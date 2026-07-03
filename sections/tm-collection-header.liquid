@@ -1,0 +1,42 @@
+{%- comment -%} TM — Cabecera editorial de colección (v2) {%- endcomment -%}
+
+<div class="tm-col-header">
+  <p class="tm-col-header__label">{{ section.settings.label | default: 'I — CLUB' }}</p>
+</div>
+
+{% stylesheet %}
+  .tm-col-header {
+    background: var(--tm-white, #fafaf8);
+    padding: 80px var(--section-padding, max(24px, 5vw)) 48px;
+  }
+
+  .tm-col-header__label {
+    font-family: var(--tm-font, 'Helvetica Neue', Helvetica, Arial, sans-serif);
+    font-size: 8px;
+    letter-spacing: 0.4em;
+    color: var(--tm-grey-3, rgba(10, 10, 10, 0.25));
+    text-transform: uppercase;
+    margin: 0;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "TM Collection Header",
+  "tag": "div",
+  "class": "tm-col-header-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Etiqueta",
+      "default": "I — CLUB"
+    }
+  ],
+  "presets": [
+    {
+      "name": "TM Collection Header"
+    }
+  ]
+}
+{% endschema %}

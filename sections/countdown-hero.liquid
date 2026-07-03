@@ -1,0 +1,287 @@
+{%- comment -%}
+  TM — Countdown Drop Hero (v2)
+  Página completa de pre-drop: hero con countdown, teaser de producto
+  y formulario de notificación. La fecha objetivo, textos y enlaces
+  son settings; la lógica vive en tm-countdown.js / tm-motion.js.
+{%- endcomment -%}
+
+{{ 'tm-drop.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'tm-countdown.js' | asset_url }}" defer></script>
+<script src="{{ 'tm-motion.js' | asset_url }}" defer></script>
+
+{%- liquid
+  assign deadline = section.settings.deadline | default: '2026-06-05T18:00:00+02:00'
+  assign deadline_human = section.settings.deadline_human | default: '05.06.2026 a las 18:00h'
+-%}
+
+<div class="tm-drop-page">
+
+  <!-- ─── HERO ─── -->
+  <section class="tm-hero">
+    <div class="tm-hero__inner">
+
+      <p class="tm-hero__eyebrow" data-anim="1">{{ section.settings.eyebrow | default: '05 · VI · MMXXVI' }}</p>
+
+      <div class="tm-hero__logo" data-anim="2">
+        {%- if section.settings.logo != blank -%}
+          <img
+            src="{{ section.settings.logo | image_url: width: 320 }}"
+            srcset="{{ section.settings.logo | image_url: width: 160 }} 160w, {{ section.settings.logo | image_url: width: 320 }} 320w"
+            sizes="160px"
+            alt="Trajectus Magna"
+            width="160"
+            height="{{ 160 | divided_by: section.settings.logo.aspect_ratio | round }}"
+            loading="eager"
+          >
+        {%- else -%}
+          <span class="tm-hero__logo-text">TRAJECTUS MAGNA</span>
+        {%- endif -%}
+      </div>
+
+      <h1 class="tm-hero__title" data-anim="3">{{ section.settings.title | default: 'CLUB POLO' }}</h1>
+
+      <div
+        class="tm-countdown"
+        role="timer"
+        aria-label="Cuenta atrás para el lanzamiento — {{ deadline_human }}"
+        data-anim="4"
+        data-tm-countdown
+        data-tm-deadline="{{ deadline }}"
+        data-tm-flip
+      >
+        <div class="tm-countdown__unit">
+          <span class="tm-countdown__value" data-tm-unit="days">00</span>
+          <span class="tm-countdown__label">días</span>
+        </div>
+        <span class="tm-countdown__sep" aria-hidden="true">·</span>
+        <div class="tm-countdown__unit">
+          <span class="tm-countdown__value" data-tm-unit="hours">00</span>
+          <span class="tm-countdown__label">horas</span>
+        </div>
+        <span class="tm-countdown__sep" aria-hidden="true">·</span>
+        <div class="tm-countdown__unit">
+          <span class="tm-countdown__value" data-tm-unit="minutes">00</span>
+          <span class="tm-countdown__label">minutos</span>
+        </div>
+        <span class="tm-countdown__sep" aria-hidden="true">·</span>
+        <div class="tm-countdown__unit">
+          <span class="tm-countdown__value" data-tm-unit="seconds">00</span>
+          <span class="tm-countdown__label">segundos</span>
+        </div>
+      </div>
+
+      <a href="{{ section.settings.cta_link }}" class="tm-hero__cta" data-anim="5">
+        {{ section.settings.cta_text | default: 'ACCESO ANTICIPADO' }}
+      </a>
+
+    </div>
+  </section>
+
+  <!-- ─── DIVIDER ─── -->
+  <div class="tm-divider" aria-hidden="true">
+    <span class="tm-divider__line"></span>
+    <span class="tm-divider__dot">·</span>
+    <span class="tm-divider__line"></span>
+  </div>
+
+  <!-- ─── PRODUCT TEASER ─── -->
+  <section class="tm-product">
+    <div class="tm-product__inner">
+
+      <div class="tm-product__image-wrap">
+        {%- if section.settings.product_image != blank -%}
+          <img
+            src="{{ section.settings.product_image | image_url: width: 900 }}"
+            srcset="
+              {{ section.settings.product_image | image_url: width: 480 }} 480w,
+              {{ section.settings.product_image | image_url: width: 720 }} 720w,
+              {{ section.settings.product_image | image_url: width: 900 }} 900w,
+              {{ section.settings.product_image | image_url: width: 1200 }} 1200w
+            "
+            sizes="(max-width: 700px) 100vw, 450px"
+            alt="{{ section.settings.product_name | default: 'Club Polo' }} — Trajectus Magna"
+            width="900"
+            height="1200"
+            loading="lazy"
+            class="tm-product__image"
+          >
+        {%- else -%}
+          <div class="tm-product__image-placeholder"></div>
+        {%- endif -%}
+      </div>
+
+      <div class="tm-product__details">
+        <p class="tm-product__eyebrow">{{ section.settings.product_eyebrow | default: '01 · CLUB' }}</p>
+        <p class="tm-product__collection">Trajectus Magna</p>
+        <h2 class="tm-product__name">
+          {{ section.settings.product_name | default: 'Club Polo' }}<br>
+          <em>{{ section.settings.product_variant | default: 'Navy' }}</em>
+        </h2>
+        <p class="tm-product__attributes">
+          {{ section.settings.product_attributes | default: '280g/m²&nbsp;·&nbsp;Escudo heráldico&nbsp;·&nbsp;Sin reposición' }}
+        </p>
+
+        <div class="tm-notify">
+          <p class="tm-notify__label">{{ section.settings.notify_label | default: 'LANZAMIENTO 05.06.2026 — PRECIO RESERVADO' }}</p>
+          {%- form 'contact', id: 'tm-notify-form', class: 'tm-notify-form' -%}
+            {%- if form.posted_successfully? -%}
+              <p class="tm-notify__success">Anotado — te avisamos el día del drop.</p>
+            {%- else -%}
+              <input type="hidden" name="contact[body]" value="Notificación de lanzamiento: {{ section.settings.product_name | default: 'Club Polo' }} {{ section.settings.product_variant | default: 'Navy' }} — Drop 05.06.2026">
+              <div class="tm-notify__row">
+                <input
+                  type="email"
+                  name="contact[email]"
+                  class="tm-notify__input"
+                  placeholder="TU CORREO"
+                  required
+                  autocomplete="email"
+                  aria-label="Correo electrónico para notificación de lanzamiento"
+                >
+                <button
+                  type="submit"
+                  class="tm-notify__btn"
+                  id="tm-notify-btn"
+                  aria-label="Registrar correo para notificación"
+                >
+                  <svg width="14" height="10" viewBox="0 0 14 10" fill="none" aria-hidden="true" focusable="false">
+                    <path d="M1 5h12M8.5 1l4.5 4-4.5 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </button>
+              </div>
+              {%- if form.errors -%}
+                <p class="tm-notify__error" role="alert">Por favor, introduce un correo válido.</p>
+              {%- endif -%}
+            {%- endif -%}
+          {%- endform -%}
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ─── FOOTER ─── -->
+  <footer class="tm-cdh-footer" role="contentinfo">
+    <p>Trajectus Magna &nbsp;·&nbsp; Drop 05.06.2026</p>
+  </footer>
+
+</div>
+
+<script>
+  /* Estado de carga del formulario de notificación */
+  (function () {
+    var form = document.getElementById('tm-notify-form');
+    if (!form) return;
+    form.addEventListener('submit', function () {
+      var btn = document.getElementById('tm-notify-btn');
+      if (btn) {
+        btn.disabled = true;
+        btn.setAttribute('aria-busy', 'true');
+      }
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Countdown Drop Hero",
+  "tag": "div",
+  "class": "tm-section-drop",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Lanzamiento"
+    },
+    {
+      "type": "text",
+      "id": "deadline",
+      "label": "Fecha del drop (ISO 8601)",
+      "default": "2026-06-05T18:00:00+02:00",
+      "info": "Formato: AAAA-MM-DDTHH:MM:SS+ZZ:ZZ. El countdown y el modo pre/post drop dependen de esta fecha."
+    },
+    {
+      "type": "text",
+      "id": "deadline_human",
+      "label": "Fecha legible (accesibilidad)",
+      "default": "05.06.2026 a las 18:00h"
+    },
+    {
+      "type": "header",
+      "content": "Hero"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo (blanco sobre fondo oscuro)"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "05 · VI · MMXXVI"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Título",
+      "default": "CLUB POLO"
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "Texto del CTA",
+      "default": "ACCESO ANTICIPADO"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "Enlace CTA (newsletter / lista de espera)",
+      "default": "/"
+    },
+    {
+      "type": "header",
+      "content": "Teaser de producto"
+    },
+    {
+      "type": "image_picker",
+      "id": "product_image",
+      "label": "Foto del producto (club-polo-navy.jpg)"
+    },
+    {
+      "type": "text",
+      "id": "product_eyebrow",
+      "label": "Eyebrow del producto",
+      "default": "01 · CLUB"
+    },
+    {
+      "type": "text",
+      "id": "product_name",
+      "label": "Nombre",
+      "default": "Club Polo"
+    },
+    {
+      "type": "text",
+      "id": "product_variant",
+      "label": "Variante",
+      "default": "Navy"
+    },
+    {
+      "type": "text",
+      "id": "product_attributes",
+      "label": "Atributos",
+      "default": "280g/m² · Escudo heráldico · Sin reposición"
+    },
+    {
+      "type": "text",
+      "id": "notify_label",
+      "label": "Etiqueta del formulario",
+      "default": "LANZAMIENTO 05.06.2026 — PRECIO RESERVADO"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Countdown Drop Hero"
+    }
+  ]
+}
+{% endschema %}

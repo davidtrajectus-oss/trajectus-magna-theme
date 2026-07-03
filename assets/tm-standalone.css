@@ -1,0 +1,197 @@
+/* ═══════════════════════════════════════════════════════════
+   TRAJECTUS MAGNA — STANDALONE (v2)
+   Concha compartida de las páginas fuera del layout del tema
+   (acceso, acceso-codigo, unboxing). Requiere tm-tokens.css.
+   ═══════════════════════════════════════════════════════════ */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+  background: var(--tm-black);
+  color: var(--tm-crudo);
+  font-family: var(--tm-font);
+}
+
+/* ── Página centrada ────────────────────────────────────────── */
+
+.tm-sa-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 24px;
+  text-align: center;
+}
+
+/* ── Logo ───────────────────────────────────────────────────── */
+
+.tm-sa-logo {
+  display: block;
+  width: 44px;
+  height: auto;
+  filter: brightness(10) invert(1);
+  margin-bottom: 40px;
+}
+
+.tm-sa-logo-text {
+  font-size: 9px;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--tm-ink-40);
+  margin-bottom: 40px;
+  display: block;
+}
+
+/* ── Cabecera y separador ───────────────────────────────────── */
+
+.tm-sa-heading {
+  font-size: 8px;
+  letter-spacing: 0.4em;
+  color: var(--tm-ink-25);
+  text-transform: uppercase;
+}
+
+.tm-sa-line {
+  width: 40px;
+  height: 1px;
+  background: var(--tm-ink-10);
+  margin: 24px auto;
+}
+
+/* ── Input de código ────────────────────────────────────────── */
+
+.tm-sa-input {
+  display: block;
+  width: 200px;
+  height: 48px;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--tm-ink-20);
+  color: var(--tm-crudo);
+  font-family: inherit;
+  font-size: 16px;
+  letter-spacing: 0.5em;
+  text-align: center;
+  text-transform: uppercase;
+  outline: none;
+  caret-color: var(--tm-crudo);
+  transition: border-bottom-color 0.4s ease;
+  -webkit-appearance: none;
+}
+
+.tm-sa-input:focus { border-bottom-color: var(--tm-ink-50); }
+
+.tm-sa-input::placeholder {
+  color: var(--tm-ink-20);
+  letter-spacing: 0.3em;
+}
+
+/* ── Botones ────────────────────────────────────────────────── */
+
+.tm-sa-btn {
+  display: block;
+  margin: 24px auto 0;
+  background: transparent;
+  border: 1px solid var(--tm-ink-15);
+  color: var(--tm-ink-40);
+  font-family: inherit;
+  font-size: 9px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  padding: 10px 28px;
+  cursor: pointer;
+  transition: border-color 0.4s ease, color 0.4s ease;
+}
+
+.tm-sa-btn:hover,
+.tm-sa-btn:focus-visible {
+  border-color: var(--tm-ink-40);
+  color: var(--tm-ink-70);
+}
+
+.tm-sa-btn--ghost {
+  border: none;
+  color: var(--tm-ink-30);
+  padding: 0;
+  margin-top: 40px;
+}
+
+.tm-sa-btn--ghost:hover,
+.tm-sa-btn--ghost:focus-visible { color: var(--tm-ink-60); }
+
+/* ── Estado del verificador de acceso ───────────────────────── */
+
+.tm-sa-status {
+  display: block;
+  margin-top: 20px;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  min-height: 16px;
+  transition: opacity 0.4s ease;
+}
+
+.tm-sa-status--vip    { color: rgba(240, 237, 232, 0.8); }
+.tm-sa-status--public { color: var(--tm-ink-60); }
+.tm-sa-status--early  { color: var(--tm-ink-30); }
+.tm-sa-status--err    { color: var(--tm-ink-20); }
+
+.tm-sa-welcome {
+  display: block;
+  margin-top: 12px;
+  font-size: 11px;
+  color: var(--tm-ink-30);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+
+.tm-sa-welcome--visible { opacity: 1; }
+
+.tm-sa-fading { opacity: 0; }
+
+[data-tm-access-wrap] { transition: opacity 0.6s ease; }
+
+@keyframes tm-sa-shake-kf {
+  0%, 100% { transform: translateX(0); }
+  20%      { transform: translateX(-4px); }
+  40%      { transform: translateX(4px); }
+  60%      { transform: translateX(-3px); }
+  80%      { transform: translateX(3px); }
+}
+
+.tm-sa-shake { animation: tm-sa-shake-kf 0.4s ease; }
+
+/* ── Enlaces al pie ─────────────────────────────────────────── */
+
+.tm-sa-footer-link {
+  display: block;
+  margin-top: 40px;
+  font-size: 9px;
+  color: var(--tm-ink-20);
+  text-decoration: none;
+  letter-spacing: 0.1em;
+  transition: color 0.4s ease;
+}
+
+.tm-sa-footer-link:hover,
+.tm-sa-footer-link:focus-visible { color: var(--tm-ink-40); }
+
+/* ── Reduced motion ─────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .tm-sa-input,
+  .tm-sa-btn,
+  .tm-sa-status,
+  .tm-sa-footer-link,
+  .tm-sa-welcome,
+  [data-tm-access-wrap] { transition: none; }
+
+  .tm-sa-shake { animation: none; }
+}

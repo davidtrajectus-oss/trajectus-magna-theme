@@ -1,0 +1,299 @@
+{%- comment -%}
+  TM — La Firma (v2)
+  Manifiesto + 5 pilares. Renderiza dentro del layout del tema
+  (header/footer TM en post-drop). Reveal compartido via tm-motion.js.
+{%- endcomment -%}
+
+<script src="{{ 'tm-motion.js' | asset_url }}" defer></script>
+
+<div class="tm-lf">
+
+  <!-- ══ 1 — HERO ══ -->
+
+  <section class="tm-lf-hero" aria-label="Trajectus Magna — La Firma">
+
+    {%- if settings.logo != blank -%}
+      <img
+        src="{{ settings.logo | image_url: width: 128 }}"
+        alt="Trajectus Magna"
+        class="tm-lf-hero__logo"
+        width="64"
+        height="{{ 64 | divided_by: settings.logo.aspect_ratio | round }}"
+        loading="eager"
+      >
+    {%- else -%}
+      <span class="tm-lf-hero__logo-text">TRAJECTUS MAGNA</span>
+    {%- endif -%}
+
+    <div class="tm-lf-hero__spacer" aria-hidden="true"></div>
+
+    <p class="tm-lf-hero__eyebrow">LA FIRMA</p>
+
+  </section>
+
+  <!-- ══ 2 — MANIFESTO ══ -->
+
+  <section class="tm-lf-manifesto" aria-label="Manifiesto">
+
+    <div class="tm-lf-manifesto__inner">
+
+      <h1 class="tm-lf-manifesto__heading tm-fade-in">Por qué existimos.</h1>
+
+      <p class="tm-lf-manifesto__p tm-fade-in" data-delay="1">
+        Trajectus Magna no es una marca de ropa.
+        Es una declaración sobre lo que merece durar.
+      </p>
+
+      <p class="tm-lf-manifesto__p tm-fade-in" data-delay="2">
+        Nace del rechazo a la mediocridad disfrazada de tendencia,
+        y de la convicción de que existe una audiencia que exige más —
+        más en el material, más en la construcción,
+        más en cada decisión que no se ve.
+      </p>
+
+      <p class="tm-lf-manifesto__p tm-fade-in" data-delay="3">
+        El acceso es limitado por diseño, no por circunstancia.
+        Las piezas no se reponen. El precio no se negocia.
+        La calidad no se concesiona.
+      </p>
+
+      <p class="tm-lf-manifesto__p tm-lf-manifesto__p--signature tm-fade-in" data-delay="4">
+        Trajectus Magna.<br>El que entienda, entiende.
+      </p>
+
+    </div>
+
+  </section>
+
+  <!-- ══ 3 — PILARES ══ -->
+
+  <section class="tm-lf-pilares" aria-label="Los cinco pilares">
+
+    <ol class="tm-lf-pilares__inner">
+
+      <li class="tm-lf-pilar tm-fade-in">
+        <div class="tm-lf-pilar__top">
+          <span class="tm-lf-pilar__num" aria-hidden="true">01</span>
+          <span class="tm-lf-pilar__title">CALIDAD SIN CONCESIONES</span>
+        </div>
+        <p class="tm-lf-pilar__desc">Los materiales son la firma.</p>
+      </li>
+
+      <li class="tm-lf-pilar tm-fade-in" data-delay="1">
+        <div class="tm-lf-pilar__top">
+          <span class="tm-lf-pilar__num" aria-hidden="true">02</span>
+          <span class="tm-lf-pilar__title">ESCASEZ CONTROLADA</span>
+        </div>
+        <p class="tm-lf-pilar__desc">El acceso es limitado por diseño.</p>
+      </li>
+
+      <li class="tm-lf-pilar tm-fade-in" data-delay="2">
+        <div class="tm-lf-pilar__top">
+          <span class="tm-lf-pilar__num" aria-hidden="true">03</span>
+          <span class="tm-lf-pilar__title">DISCIPLINA DE PRECIO</span>
+        </div>
+        <p class="tm-lf-pilar__desc">El precio es la promesa. No se negocia.</p>
+      </li>
+
+      <li class="tm-lf-pilar tm-fade-in" data-delay="3">
+        <div class="tm-lf-pilar__top">
+          <span class="tm-lf-pilar__num" aria-hidden="true">04</span>
+          <span class="tm-lf-pilar__title">SILENCIO ESTRATÉGICO</span>
+        </div>
+        <p class="tm-lf-pilar__desc">La comunicación es esencial. El silencio, también.</p>
+      </li>
+
+      <li class="tm-lf-pilar tm-fade-in" data-delay="4">
+        <div class="tm-lf-pilar__top">
+          <span class="tm-lf-pilar__num" aria-hidden="true">05</span>
+          <span class="tm-lf-pilar__title">COHERENCIA ABSOLUTA</span>
+        </div>
+        <p class="tm-lf-pilar__desc">Cada punto de contacto es la firma completa.</p>
+      </li>
+
+    </ol>
+
+  </section>
+
+  <!-- ══ 4 — CLOSING ══ -->
+
+  <section class="tm-lf-closing" aria-label="Cierre">
+
+    {%- if settings.logo != blank -%}
+      <img
+        src="{{ settings.logo | image_url: width: 64 }}"
+        alt="Trajectus Magna"
+        class="tm-lf-closing__logo"
+        width="32"
+        height="{{ 32 | divided_by: settings.logo.aspect_ratio | round }}"
+        loading="lazy"
+      >
+    {%- else -%}
+      <span class="tm-lf-closing__logo-text">TM</span>
+    {%- endif -%}
+
+    <p class="tm-lf-closing__line">— Trajectus Magna.</p>
+
+  </section>
+
+</div>
+
+<style>
+  .tm-lf {
+    background: var(--tm-black);
+    color: var(--tm-crudo);
+    font-family: var(--tm-font);
+  }
+
+  /* 1: Hero */
+  .tm-lf-hero {
+    height: 60vh;
+    min-height: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: var(--tm-black);
+  }
+
+  .tm-lf-hero__logo {
+    width: 64px;
+    height: auto;
+    display: block;
+    filter: brightness(10) invert(1);
+  }
+
+  .tm-lf-hero__logo-text {
+    font-size: 14px;
+    font-weight: 200;
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+    color: var(--tm-crudo);
+  }
+
+  .tm-lf-hero__spacer { height: 48px; }
+
+  .tm-lf-hero__eyebrow {
+    font-size: 9px;
+    letter-spacing: 0.5em;
+    color: var(--tm-ink-30);
+    text-transform: uppercase;
+    margin: 0;
+  }
+
+  /* 2: Manifesto */
+  .tm-lf-manifesto {
+    background: var(--tm-black);
+    padding: 80px var(--section-padding);
+  }
+
+  .tm-lf-manifesto__inner {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .tm-lf-manifesto__heading {
+    font-size: 22px;
+    font-weight: 200;
+    color: var(--tm-crudo);
+    letter-spacing: 0.02em;
+    margin-bottom: 40px;
+    font-family: var(--tm-font);
+  }
+
+  .tm-lf-manifesto__p {
+    font-size: 14px;
+    color: var(--tm-ink-60);
+    line-height: 1.95;
+    letter-spacing: 0.02em;
+    margin: 0 0 24px;
+    font-weight: 300;
+  }
+
+  .tm-lf-manifesto__p:last-child { margin-bottom: 0; }
+
+  .tm-lf-manifesto__p--signature { font-style: italic; }
+
+  /* 3: Pilares */
+  .tm-lf-pilares {
+    background: var(--tm-black);
+    padding: 64px var(--section-padding);
+    border-top: 1px solid rgba(240, 237, 232, 0.06);
+  }
+
+  .tm-lf-pilares__inner {
+    max-width: 600px;
+    margin: 0 auto;
+    list-style: none;
+    padding: 0;
+  }
+
+  .tm-lf-pilar {
+    padding: 24px 0;
+    border-bottom: 1px solid var(--tm-ink-05);
+  }
+
+  .tm-lf-pilar:first-child { padding-top: 0; }
+  .tm-lf-pilar:last-child { border-bottom: none; }
+
+  .tm-lf-pilar__top {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    margin-bottom: 4px;
+  }
+
+  .tm-lf-pilar__num {
+    font-size: 11px;
+    color: var(--tm-ink-15);
+    letter-spacing: 0.1em;
+    flex-shrink: 0;
+  }
+
+  .tm-lf-pilar__title {
+    font-size: 9px;
+    text-transform: uppercase;
+    color: var(--tm-ink-40);
+    letter-spacing: 0.3em;
+  }
+
+  .tm-lf-pilar__desc {
+    font-size: 12px;
+    color: rgba(240, 237, 232, 0.35);
+    line-height: 1.8;
+    margin: 0;
+    padding-left: calc(11px + 16px + 1ch);
+  }
+
+  /* 4: Closing */
+  .tm-lf-closing {
+    background: var(--tm-black);
+    padding: 80px var(--section-padding);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .tm-lf-closing__logo {
+    width: 32px;
+    height: auto;
+    display: block;
+    filter: brightness(10) invert(1);
+    opacity: 0.6;
+  }
+
+  .tm-lf-closing__logo-text {
+    font-size: 9px;
+    letter-spacing: 0.3em;
+    color: var(--tm-ink-30);
+    text-transform: uppercase;
+  }
+
+  .tm-lf-closing__line {
+    font-size: 11px;
+    color: var(--tm-ink-25);
+    letter-spacing: 0.1em;
+    margin-top: 16px;
+  }
+</style>

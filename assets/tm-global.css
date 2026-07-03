@@ -1,0 +1,329 @@
+/* ═══════════════════════════════════════════════════════════
+   TRAJECTUS MAGNA — GLOBAL (v2)
+   Chrome del tema (header/footer TM), visibilidad pre/post drop
+   y utilidades. Requiere tm-tokens.css cargado antes.
+   ═══════════════════════════════════════════════════════════ */
+
+/* ── Visibilidad pre / post drop ─────────────────────────────
+   El modo lo decide theme.liquid poniendo html.pre-drop o
+   html.post-drop según la fecha del drop (override: ?tm_mode=). */
+
+html.post-drop .tm-section-drop { display: none !important; }
+html.pre-drop .tm-home-postdrop { display: none !important; }
+
+html.post-drop #header-group { display: none !important; }
+html.post-drop #footer-group { display: none !important; }
+
+/* ── Header TM (solo post-drop) ─────────────────────────────── */
+
+.tm-header {
+  display: none;
+  background: var(--tm-white);
+  height: 64px;
+  border-bottom: 1px solid var(--tm-divider);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  padding: 0 var(--section-padding);
+  align-items: center;
+  justify-content: space-between;
+}
+
+html.post-drop .tm-header { display: flex; }
+
+.tm-header__nav {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+.tm-header__link {
+  font-family: var(--tm-font);
+  font-size: 9px;
+  letter-spacing: var(--tm-tracking-wide);
+  text-transform: uppercase;
+  color: var(--tm-grey-4);
+  text-decoration: none;
+  transition: color 0.4s ease;
+}
+
+.tm-header__link:hover,
+.tm-header__link:focus-visible { color: var(--tm-black); }
+
+.tm-header__logo-wrap {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+}
+
+.tm-header__logo-wrap img {
+  width: 32px;
+  height: auto;
+  display: block;
+}
+
+.tm-header__logo-text {
+  font-family: var(--tm-font);
+  font-size: 9px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--tm-black);
+  text-decoration: none;
+  font-weight: 300;
+}
+
+.tm-header__mobile-btn {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  align-items: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+}
+
+.tm-header__mobile-btn span {
+  display: block;
+  width: 18px;
+  height: 1px;
+  background: var(--tm-grey-4);
+  transition: background 0.4s ease;
+}
+
+@media (max-width: 749px) {
+  html.post-drop .tm-header { padding: 0 20px; }
+  .tm-header__nav--desktop { display: none !important; }
+  .tm-header__mobile-btn { display: flex; }
+}
+
+/* ── Menú móvil overlay ─────────────────────────────────────── */
+
+.tm-mobile-menu {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: var(--tm-black);
+  z-index: 200;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.tm-mobile-menu--open { opacity: 1; }
+
+.tm-mobile-menu__close {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: var(--tm-font);
+  font-size: 9px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--tm-ink-40);
+  transition: color 0.4s ease;
+}
+
+.tm-mobile-menu__close:hover,
+.tm-mobile-menu__close:focus-visible { color: var(--tm-crudo); }
+
+.tm-mobile-menu__link {
+  font-family: var(--tm-font);
+  font-size: 18px;
+  letter-spacing: var(--tm-tracking-wide);
+  text-transform: uppercase;
+  color: var(--tm-crudo);
+  text-decoration: none;
+  transition: opacity 0.4s ease;
+}
+
+.tm-mobile-menu__link:hover,
+.tm-mobile-menu__link:focus-visible { opacity: 0.6; }
+
+/* ── Footer TM (solo post-drop) ─────────────────────────────── */
+
+.tm-footer {
+  display: none;
+  background: var(--tm-black);
+  padding: 64px var(--section-padding) 40px;
+}
+
+html.post-drop .tm-footer { display: block; }
+
+.tm-footer__top {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 40px;
+  margin-bottom: 48px;
+}
+
+.tm-footer__logo img {
+  width: 36px;
+  height: auto;
+  display: block;
+  filter: brightness(10) invert(1);
+}
+
+.tm-footer__logo-text {
+  font-family: var(--tm-font);
+  font-size: 9px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--tm-ink-30);
+}
+
+.tm-footer__brand {
+  font-family: var(--tm-font);
+  font-size: 10px;
+  color: var(--tm-ink-25);
+  letter-spacing: 0.05em;
+  margin-top: 12px;
+}
+
+.tm-footer__col-label {
+  font-family: var(--tm-font);
+  font-size: 8px;
+  letter-spacing: 0.3em;
+  color: var(--tm-ink-20);
+  text-transform: uppercase;
+  margin-bottom: 16px;
+  display: block;
+}
+
+.tm-footer__col-link {
+  display: block;
+  font-family: var(--tm-font);
+  font-size: 11px;
+  color: var(--tm-ink-40);
+  text-decoration: none;
+  line-height: 2.2;
+  transition: color 0.4s ease;
+}
+
+.tm-footer__col-link:hover,
+.tm-footer__col-link:focus-visible { color: var(--tm-ink-70); }
+
+.tm-footer__bottom {
+  border-top: 1px solid var(--tm-ink-05);
+  padding-top: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.tm-footer__legal {
+  font-family: var(--tm-font);
+  font-size: 9px;
+  color: var(--tm-ink-15);
+  letter-spacing: 0.05em;
+}
+
+.tm-footer__legal a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.4s ease;
+}
+
+.tm-footer__legal a:hover,
+.tm-footer__legal a:focus-visible { color: var(--tm-ink-40); }
+
+@media (max-width: 749px) {
+  .tm-footer__top {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .tm-footer__bottom {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
+/* ── Página de colección: ocultar chrome por defecto ────────── */
+
+html.post-drop .collection-wrapper > [class*='filter'],
+html.post-drop .collection-wrapper > [class*='sort'],
+html.post-drop .facets-container,
+html.post-drop .breadcrumbs,
+html.post-drop [class*='breadcrumb'],
+html.post-drop .collection-header__title,
+html.post-drop results-list > .skip-to-content-link {
+  display: none !important;
+}
+
+/* ── Página de colección: grid a 2 columnas + stagger ───────── */
+
+html.post-drop .product-grid,
+html.post-drop [class*='product-grid'] {
+  --product-grid-columns: 2 !important;
+  --product-grid-columns-tablet: 2 !important;
+  gap: 32px !important;
+}
+
+@keyframes tm-card-in {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+html.post-drop .product-grid__item {
+  animation: tm-card-in 0.6s ease both;
+}
+
+html.post-drop .product-grid__item:nth-child(1) { animation-delay: 0s; }
+html.post-drop .product-grid__item:nth-child(2) { animation-delay: 0.1s; }
+html.post-drop .product-grid__item:nth-child(3) { animation-delay: 0.2s; }
+html.post-drop .product-grid__item:nth-child(4) { animation-delay: 0.3s; }
+
+/* ── Página de producto: línea de confianza ─────────────────── */
+
+.tm-trust-line {
+  font-family: var(--tm-font);
+  font-size: 9px;
+  color: var(--tm-grey-3);
+  letter-spacing: 0.08em;
+  text-align: center;
+  margin-top: 10px;
+  display: block;
+}
+
+/* ── Utilidad de reveal escalonado (ver tm-motion.js) ───────── */
+
+.tm-fade-in {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.tm-fade-in.tm-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Reduced motion ─────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  html.post-drop .product-grid__item { animation: none; }
+
+  .tm-fade-in {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .tm-header__link,
+  .tm-mobile-menu,
+  .tm-mobile-menu__close,
+  .tm-mobile-menu__link,
+  .tm-footer__col-link,
+  .tm-footer__legal a { transition: none; }
+}

@@ -1,0 +1,305 @@
+{% layout none %}
+{%- comment -%}
+  TM — Experiencia post-compra / unboxing (v2)
+  Dos fases: agradecimiento → la pieza + código del próximo drop.
+{%- endcomment -%}
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Tu pedido — TRAJECTUS MAGNA</title>
+  {%- if settings.favicon != blank -%}
+    <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
+  {%- endif -%}
+  <link rel="stylesheet" href="{{ 'tm-tokens.css' | asset_url }}">
+  <link rel="stylesheet" href="{{ 'tm-standalone.css' | asset_url }}">
+  {{ content_for_header }}
+  <style>
+    /* ── Fases ── */
+    .tm-ub-phase {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 48px 24px;
+      text-align: center;
+      opacity: 0;
+      transition: opacity 0.6s ease;
+    }
+
+    .tm-ub-phase--active { opacity: 1; }
+    .tm-ub-phase--hidden { display: none; }
+
+    /* ── Fase 1: bienvenida ── */
+    .tm-ub-thanks {
+      font-size: 24px;
+      font-weight: 200;
+      color: var(--tm-crudo);
+      letter-spacing: 0.05em;
+      margin-bottom: 12px;
+    }
+
+    .tm-ub-sub {
+      font-size: 12px;
+      color: var(--tm-ink-40);
+      letter-spacing: 0.08em;
+    }
+
+    /* ── Fase 2: la pieza ── */
+    .tm-ub-piece-label {
+      font-size: 9px;
+      letter-spacing: 0.5em;
+      color: var(--tm-ink-30);
+      text-transform: uppercase;
+      margin-bottom: 32px;
+    }
+
+    .tm-ub-piece-text {
+      max-width: 480px;
+      font-size: 13px;
+      color: var(--tm-ink-50);
+      line-height: 1.95;
+      letter-spacing: 0.02em;
+      margin: 0 auto 28px;
+    }
+
+    .tm-ub-piece-text:last-of-type { margin-bottom: 0; }
+
+    .tm-ub-divider {
+      width: 100%;
+      max-width: 560px;
+      height: 1px;
+      background: rgba(240, 237, 232, 0.06);
+      margin: 48px auto;
+    }
+
+    /* ── Fase 3: código ── */
+    .tm-ub-code-label {
+      font-size: 8px;
+      letter-spacing: 0.4em;
+      color: var(--tm-ink-20);
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+
+    .tm-ub-code-box {
+      background: rgba(240, 237, 232, 0.03);
+      border: 1px solid rgba(240, 237, 232, 0.08);
+      padding: 20px 40px;
+      display: inline-block;
+    }
+
+    .tm-ub-code-value {
+      font-size: 20px;
+      letter-spacing: 0.6em;
+      color: var(--tm-crudo);
+      font-family: inherit;
+      font-weight: 300;
+    }
+
+    .tm-ub-code-note {
+      font-size: 10px;
+      color: var(--tm-ink-20);
+      letter-spacing: 0.05em;
+      margin-top: 12px;
+      line-height: 1.7;
+    }
+
+    .tm-ub-copy-btn {
+      display: inline-block;
+      margin-top: 16px;
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      border: 1px solid var(--tm-ink-10);
+      padding: 8px 20px;
+      background: transparent;
+      color: var(--tm-ink-30);
+      cursor: pointer;
+      font-family: inherit;
+      transition: color 0.4s ease, border-color 0.4s ease;
+    }
+
+    .tm-ub-copy-btn:hover,
+    .tm-ub-copy-btn:focus-visible {
+      color: var(--tm-ink-60);
+      border-color: var(--tm-ink-30);
+    }
+
+    /* ── Cierre ── */
+    .tm-ub-closing {
+      margin-top: 64px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .tm-ub-closing-logo {
+      width: 28px;
+      height: auto;
+      display: block;
+      filter: brightness(10) invert(1);
+      opacity: 0.5;
+    }
+
+    .tm-ub-closing-text {
+      font-size: 10px;
+      color: var(--tm-ink-15);
+      letter-spacing: 0.1em;
+      margin-top: 12px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .tm-ub-phase {
+        transition: none;
+        opacity: 1;
+      }
+
+      .tm-ub-copy-btn { transition: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- FASE 1: BIENVENIDA -->
+  <section class="tm-ub-phase" id="tm-ub-p1" aria-label="Bienvenida">
+
+    {%- if settings.logo != blank -%}
+      <img
+        src="{{ settings.logo | image_url: width: 80 }}"
+        alt="Trajectus Magna"
+        class="tm-sa-logo"
+        width="40"
+        height="{{ 40 | divided_by: settings.logo.aspect_ratio | round }}"
+        loading="eager"
+      >
+    {%- else -%}
+      <span class="tm-sa-logo-text">TRAJECTUS MAGNA</span>
+    {%- endif -%}
+
+    <p class="tm-ub-thanks">Gracias.</p>
+    <p class="tm-ub-sub">Tu pieza está en camino.</p>
+
+    <button class="tm-sa-btn tm-sa-btn--ghost" id="tm-ub-next" type="button" aria-label="Continuar">
+      CONTINUAR →
+    </button>
+
+  </section>
+
+  <!-- FASE 2 + 3: LA PIEZA & EL CÓDIGO -->
+  <section class="tm-ub-phase tm-ub-phase--hidden" id="tm-ub-p2" aria-label="Tu pieza">
+
+    <p class="tm-ub-piece-label">CLUB POLO</p>
+
+    <p class="tm-ub-piece-text">
+      Piqué de algodón premium. 280g/m².<br>
+      Una densidad que se siente antes de verse.
+    </p>
+
+    <p class="tm-ub-piece-text">
+      El escudo heráldico fue bordado con hilo de precisión.<br>
+      Cada punto es idéntico al anterior. Eso no se improvisa.
+    </p>
+
+    <p class="tm-ub-piece-text">
+      Cuida esta pieza como merece.<br>
+      Lavado a 30 grados, del revés.<br>
+      Sin centrifugado. Doblada, no colgada.
+    </p>
+
+    <div class="tm-ub-divider" aria-hidden="true"></div>
+
+    <p class="tm-ub-code-label">ACCESO ANTICIPADO — PRÓXIMO DROP</p>
+
+    <div class="tm-ub-code-box" role="region" aria-label="Tu código de acceso">
+      <p class="tm-ub-code-value" id="tm-ub-code-text">MAGNA02</p>
+    </div>
+
+    <p class="tm-ub-code-note">
+      Guarda este código para el próximo lanzamiento.<br>
+      No se enviará por email.
+    </p>
+
+    <button class="tm-ub-copy-btn" id="tm-ub-copy" type="button" aria-label="Copiar código">
+      COPIAR CÓDIGO
+    </button>
+
+    <div class="tm-ub-closing">
+      {%- if settings.logo != blank -%}
+        <img
+          src="{{ settings.logo | image_url: width: 56 }}"
+          alt="Trajectus Magna"
+          class="tm-ub-closing-logo"
+          width="28"
+          height="{{ 28 | divided_by: settings.logo.aspect_ratio | round }}"
+          loading="lazy"
+        >
+      {%- endif -%}
+      <p class="tm-ub-closing-text">— Trajectus Magna.</p>
+    </div>
+
+  </section>
+
+  <script>
+    (function () {
+      var phase1 = document.getElementById('tm-ub-p1');
+      var phase2 = document.getElementById('tm-ub-p2');
+      var nextBtn = document.getElementById('tm-ub-next');
+      var copyBtn = document.getElementById('tm-ub-copy');
+      var codeEl = document.getElementById('tm-ub-code-text');
+
+      /* Fase 1 aparece al cargar */
+      setTimeout(function () {
+        phase1.classList.add('tm-ub-phase--active');
+      }, 1000);
+
+      /* Transición a fase 2 */
+      if (nextBtn) {
+        nextBtn.addEventListener('click', function () {
+          phase1.classList.remove('tm-ub-phase--active');
+          setTimeout(function () {
+            phase1.classList.add('tm-ub-phase--hidden');
+            phase2.classList.remove('tm-ub-phase--hidden');
+            requestAnimationFrame(function () {
+              requestAnimationFrame(function () {
+                phase2.classList.add('tm-ub-phase--active');
+              });
+            });
+          }, 600);
+        });
+      }
+
+      /* Copiar código */
+      if (copyBtn && codeEl) {
+        copyBtn.addEventListener('click', function () {
+          var code = codeEl.textContent.trim();
+          var orig = copyBtn.textContent;
+
+          function confirm() {
+            copyBtn.textContent = 'COPIADO ✓';
+            setTimeout(function () { copyBtn.textContent = orig; }, 2000);
+          }
+
+          if (navigator.clipboard) {
+            navigator.clipboard.writeText(code).then(confirm);
+          } else {
+            var ta = document.createElement('textarea');
+            ta.value = code;
+            ta.style.position = 'fixed';
+            ta.style.opacity = '0';
+            document.body.appendChild(ta);
+            ta.select();
+            document.execCommand('copy');
+            document.body.removeChild(ta);
+            confirm();
+          }
+        });
+      }
+    })();
+  </script>
+
+</body>
+</html>

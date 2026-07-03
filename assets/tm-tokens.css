@@ -1,0 +1,47 @@
+/* ═══════════════════════════════════════════════════════════
+   TRAJECTUS MAGNA — DESIGN TOKENS (v2)
+   Única fuente de verdad del sistema de diseño.
+   Cargado antes que cualquier otro CSS de la capa TM.
+   ═══════════════════════════════════════════════════════════ */
+
+:root {
+  /* Paleta */
+  --tm-black:   #0a0a0a;
+  --tm-white:   #fafaf8;
+  --tm-crudo:   #f0ede8;
+  --tm-navy:    #1a2744;
+
+  /* Grises sobre claro */
+  --tm-grey-1:  rgba(10, 10, 10, 0.04);
+  --tm-grey-2:  rgba(10, 10, 10, 0.08);
+  --tm-grey-3:  rgba(10, 10, 10, 0.25);
+  --tm-grey-4:  rgba(10, 10, 10, 0.45);
+  --tm-grey-5:  rgba(10, 10, 10, 0.65);
+  --tm-divider: rgba(10, 10, 10, 0.08);
+
+  /* Crudo sobre oscuro (escala de énfasis) */
+  --tm-ink-05:  rgba(240, 237, 232, 0.05);
+  --tm-ink-10:  rgba(240, 237, 232, 0.1);
+  --tm-ink-15:  rgba(240, 237, 232, 0.15);
+  --tm-ink-20:  rgba(240, 237, 232, 0.2);
+  --tm-ink-25:  rgba(240, 237, 232, 0.25);
+  --tm-ink-30:  rgba(240, 237, 232, 0.3);
+  --tm-ink-40:  rgba(240, 237, 232, 0.4);
+  --tm-ink-50:  rgba(240, 237, 232, 0.5);
+  --tm-ink-60:  rgba(240, 237, 232, 0.6);
+  --tm-ink-70:  rgba(240, 237, 232, 0.7);
+
+  /* Tipografía */
+  --tm-font:        'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --tm-font-serif:  'Cormorant Garamond', Georgia, serif;
+  --tm-font-sans:   'DM Sans', system-ui, sans-serif;
+
+  /* Tracking */
+  --tm-tracking-wide:  0.2em;
+  --tm-tracking-wider: 0.35em;
+
+  /* Layout y movimiento */
+  --section-padding: max(24px, 5vw);
+  --tm-transition:   all 0.4s ease;
+  --tm-ease-out:     cubic-bezier(0.16, 1, 0.3, 1);
+}

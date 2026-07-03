@@ -1,0 +1,51 @@
+{%- comment -%}
+  TM — Footer post-drop (v2). Estilos en tm-global.css.
+{%- endcomment -%}
+
+<footer class="tm-footer" role="contentinfo">
+
+  <div class="tm-footer__top">
+
+    <div>
+      <div class="tm-footer__logo">
+        {%- if settings.logo != blank -%}
+          <img
+            src="{{ settings.logo | image_url: width: 72 }}"
+            alt="Trajectus Magna"
+            width="36"
+            height="{{ 36 | divided_by: settings.logo.aspect_ratio | round }}"
+            loading="lazy"
+          >
+        {%- else -%}
+          <span class="tm-footer__logo-text">TM</span>
+        {%- endif -%}
+      </div>
+      <p class="tm-footer__brand">Trajectus Magna.</p>
+    </div>
+
+    <div>
+      <span class="tm-footer__col-label">Navegación</span>
+      <a href="/pages/la-firma" class="tm-footer__col-link">La Firma</a>
+      <a href="/collections/club" class="tm-footer__col-link">Club</a>
+      <a href="/pages/acceso-anticipado" class="tm-footer__col-link">Acceso Anticipado</a>
+    </div>
+
+    <div>
+      <span class="tm-footer__col-label">Contacto</span>
+      <a href="mailto:info@trajectus.es" class="tm-footer__col-link">info@trajectus.es</a>
+    </div>
+
+  </div>
+
+  <div class="tm-footer__bottom">
+    <span class="tm-footer__legal">© MMXXVI Trajectus Magna</span>
+    <span class="tm-footer__legal">
+      <a href="{{ shop.terms_of_service.url | default: '#' }}">Aviso Legal</a>
+      &nbsp;·&nbsp;
+      <a href="{{ shop.privacy_policy.url | default: '#' }}">Privacidad</a>
+      &nbsp;·&nbsp;
+      <a href="{{ shop.refund_policy.url | default: '#' }}">Devoluciones</a>
+    </span>
+  </div>
+
+</footer>
